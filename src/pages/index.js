@@ -1,19 +1,26 @@
-import { Box, Button } from "@mui/material"
+import { Stack } from "@mui/material"
 import * as React from "react"
+import Countries from "../components/Countries";
+import Header from "../components/Header";
+import Region from "../components/Region";
+import Search from "../components/Search";
 
-const pageStyles = {
-  color: "#232129",
-  padding: 96,
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-};
 
 const IndexPage = () => {
   return (
-    <main style={pageStyles}>
-      <Box p={4}>
-        <Button variant="contained">Hello gatsby-theme-material-ui</Button>
-      </Box>
-    </main>
+    <Stack as='main'
+      direction='column'
+    >
+      <Header />
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        sx={{ justifyContent: { sm: 'space-between' } }}
+      >
+        <Search />
+        <Region />
+      </Stack>
+      <Countries />
+    </Stack>
   )
 };
 
