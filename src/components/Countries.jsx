@@ -8,10 +8,10 @@ function Countries() {
     query allCountries {
       allInternalPosts {
         nodes {
+          capital
           flags {
             svg
           }
-          capital
           name {
             common
           }
@@ -22,27 +22,26 @@ function Countries() {
     }
   `);
 
-  const countries = data?.allInternalPosts?.nodes?.map((each) => (
-    <Grid
-      item
-      xs={12}
-      sm={6}
-      md={4}
-      lg={3}
-      xl={2}
-    >
-      <CountryCard
+  const countries = data?.allInternalPosts?.nodes
+    ?.filter(({ name }) => name !== null)
+    .map((each) => (
+      <Grid
+        item
         key={each.name?.common}
-        data={each}
+        xs={12}
+        sm={6}
+        md={4}
+        lg={3}
+        xl={2}
+        children={<CountryCard data={each} />}
       />
-    </Grid>
-  ));
+    ));
 
   return (
     <Grid
       container
       spacing={4}
-      sx={{ p: 4 }}
+      sx={{ p: 4, alignItems: 'stretch' }}
     >
       {countries}
     </Grid>

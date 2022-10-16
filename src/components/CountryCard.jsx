@@ -9,7 +9,7 @@ import React from 'react';
 
 function CountryCard({ data }) {
   return (
-    <Card>
+    <Card sx={{ height: '100%' }}>
       <CardMedia
         image={data?.flags?.svg}
         alt={`${data?.name?.common} flag`}
@@ -18,13 +18,14 @@ function CountryCard({ data }) {
       <CardHeader title={data?.name?.common} />
       <CardContent>
         <Typography>
-          Population: <Typography>{data?.population}</Typography>
+          Population:{' '}
+          <Typography component="span">{data?.population}</Typography>
         </Typography>
         <Typography>
-          Region: <Typography>{data?.region}</Typography>
+          Region: <Typography component="span">{data?.region}</Typography>
         </Typography>
         <Typography>
-          Capital: <Typography>{data?.capital}</Typography>
+          Capital: <Typography component="span">{data?.capital}</Typography>
         </Typography>
       </CardContent>
     </Card>
