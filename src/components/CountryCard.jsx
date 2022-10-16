@@ -1,25 +1,30 @@
-import { Card, CardContent, CardHeader, Typography } from '@mui/material';
-import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import React, { useMemo } from 'react';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Typography,
+} from '@mui/material';
+import React from 'react';
 
 function CountryCard({ data }) {
-  const image = useMemo(() => getImage(data.flags.svg), [data]);
   return (
     <Card>
-      <GatsbyImage
-        image={image}
-        alt={`${data.name.common} flag`}
+      <CardMedia
+        image={data?.flags?.svg}
+        alt={`${data?.name?.common} flag`}
+        sx={{ aspectRatio: '3/2' }}
       />
-      <CardHeader title={data.name.common} />
+      <CardHeader title={data?.name?.common} />
       <CardContent>
         <Typography>
-          Population: <Typography>{data.population}</Typography>
+          Population: <Typography>{data?.population}</Typography>
         </Typography>
         <Typography>
-          Region: <Typography>{data.region}</Typography>
+          Region: <Typography>{data?.region}</Typography>
         </Typography>
         <Typography>
-          Capital: <Typography>{data.capital}</Typography>
+          Capital: <Typography>{data?.capital}</Typography>
         </Typography>
       </CardContent>
     </Card>
