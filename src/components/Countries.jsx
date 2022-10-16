@@ -6,7 +6,7 @@ import CountryCard from './CountryCard';
 function Countries({ region: regionState, nameSearch }) {
   const data = useStaticQuery(graphql`
     query allCountries {
-      allInternalPosts {
+      allInternalCountries {
         nodes {
           capital
           flags {
@@ -22,7 +22,7 @@ function Countries({ region: regionState, nameSearch }) {
     }
   `);
 
-  const countries = data?.allInternalPosts?.nodes
+  const countries = data?.allInternalCountries?.nodes
     ?.filter(({ name }) => name !== null)
     .filter(({ region }) => {
       if (regionState === undefined || regionState === '') return region;

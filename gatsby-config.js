@@ -45,7 +45,7 @@ module.exports = {
         headers: {
           "Content-Type": "application/json"
         },
-        name: `posts`,
+        name: `countries`,
         allowCache: true,
         maxCacheDurationSeconds: 60 * 60 * 24,
       }
