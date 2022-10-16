@@ -36,5 +36,19 @@ module.exports = {
         },
       },
     },
+    {
+      resolve: "gatsby-source-apiserver",
+      options: {
+        typePrefix: "internal__",
+        url: "https://restcountries.com/v3.1/all",
+        method: "get",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        name: `posts`,
+        allowCache: true,
+        maxCacheDurationSeconds: 60 * 60 * 24,
+      }
+    }
   ]
 };

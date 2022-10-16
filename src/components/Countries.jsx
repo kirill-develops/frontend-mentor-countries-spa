@@ -1,47 +1,51 @@
-import { Stack, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import apiUtils from '../utils/apiUtils';
+import { Grid } from '@mui/material';
+import { graphql, useStaticQuery } from 'gatsby';
+import React from 'react';
 import CountryCard from './CountryCard';
 
 function Countries() {
-  const [countriesJSX, setCountriesJSX] = useState();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const data = await apiUtils.getAll();
-        const countries = data?.data.map((each) => (
-          <CountryCard
-            key={each.name.common}
-            data={each}
-          />
-        ));
-        setCountriesJSX(countries);
-      } catch (err) {
-        setError(true);
-      } finally {
-        setLoading(false);
+  const data = useStaticQuery(graphql`
+    query allCountries {
+      allInternalPosts {
+        nodes {
+          flags {
+            svg
+          }
+          capital
+          name {
+            common
+          }
+          population
+          region
+        }
       }
-    };
+    }
+  `);
 
-    fetchCountries();
-  }, []);
-
-  let content;
-  if (error === false && loading === false) content = countriesJSX;
-  if (error === true && loading === false)
-    content = <Typography>Error fetching data. Try reloading page</Typography>;
-  if (loading === true) content = <Typography>Loading</Typography>;
+  const countries = data?.allInternalPosts?.nodes?.map((each) => (
+    <Grid
+      item
+      xs={12}
+      sm={6}
+      md={4}
+      lg={3}
+      xl={2}
+    >
+      <CountryCard
+        key={each.name?.common}
+        data={each}
+      />
+    </Grid>
+  ));
 
   return (
-    <Stack
-      direction={{ xs: 'column', sm: 'row' }}
-      sx={{ flexWrap: 'wrap' }}
+    <Grid
+      container
+      spacing={4}
+      sx={{ p: 4 }}
     >
-      {content}
-    </Stack>
+      {countries}
+    </Grid>
   );
 }
 
