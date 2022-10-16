@@ -3,7 +3,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
 import CountryCard from './CountryCard';
 
-function Countries() {
+function Countries({ region: regionState, nameSearch }) {
   const data = useStaticQuery(graphql`
     query allCountries {
       allInternalPosts {
@@ -24,6 +24,14 @@ function Countries() {
 
   const countries = data?.allInternalPosts?.nodes
     ?.filter(({ name }) => name !== null)
+    .filter(({ region }) => {
+      if (regionState === undefined || regionState === '') return region;
+      return region === regionState;
+    })
+    .filter(({ name }) => {
+      if (nameSearch === undefined || nameSearch === '') return name;
+      return name.common.toLowerCase().includes(nameSearch.toLowerCase());
+    })
     .map((each) => (
       <Grid
         item

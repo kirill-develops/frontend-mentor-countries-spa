@@ -1,12 +1,15 @@
 import { Stack } from "@mui/material"
-import * as React from "react"
+import React, { useState } from "react"
 import Countries from "../components/Countries";
 import Header from "../components/Header";
-import Region from "../components/Region";
+import RegionSelect from "../components/RegionSelect";
 import Search from "../components/Search";
 
 
 const IndexPage = () => {
+  const [region, setRegion] = useState();
+  const [search, setSearch] = useState();
+
   return (
     <Stack as='main'
       direction='column'
@@ -16,10 +19,10 @@ const IndexPage = () => {
         direction={{ xs: 'column', sm: 'row' }}
         sx={{ justifyContent: { sm: 'space-between' } }}
       >
-        <Search />
-        <Region />
+        <Search search={search} setSearch={setSearch} />
+        <RegionSelect setRegion={setRegion} />
       </Stack>
-      <Countries />
+      <Countries region={region} nameSearch={search} />
     </Stack>
   )
 };
