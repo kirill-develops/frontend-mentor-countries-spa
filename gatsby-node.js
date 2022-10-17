@@ -21,7 +21,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
       const countryName = node.name.common
       actions.createPage({
         path: `/${countryName}`,
-        component: require.resolve("./src/pages/Country.js"),
+        component: require.resolve("./src/templates/Country.js"),
         context: {
           countryName: countryName,
         },
