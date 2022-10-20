@@ -1,28 +1,44 @@
 import { CardMedia, Chip, Grid, Stack, ThemeProvider, Typography } from '@mui/material';
-import { graphql } from 'gatsby';
-import React, { useState } from 'react';
+import { graphql, navigate } from 'gatsby';
+import React, { useMemo, useState } from 'react';
 import Header from '../components/Header';
 import { darkTheme, lightTheme } from '../styles/theme';
 
 function Country({ data }) {
   const [themeMode, setThemeMode] = useState('dark');
 
-  const { borders, capital, currencies, flags, languages, name, population, region, subregion, tld } = data.allInternalCountries.edges[0].node;
+  const { borders, capital, currencies, flags, languages, name, population, region, subregion, tld } = useMemo(() => data.allInternalCountries.edges[0].node, [data.allInternalCountries]);
 
-  const filteredCurrencies = Object.entries(currencies).reduce((arr, [key, value]) => (value ? (arr[key] = value, arr) : arr), {});
-  const currencyArr = Object.values(filteredCurrencies);
-  const currencyJSX = currencyArr.map(each =>
-    <Typography component='span' key={each.name}>{each.name}</Typography>
-  );
+  const filteredCurrencies = useMemo(() => Object.entries(currencies).reduce((arr, [key, value]) => (value ? (arr[key] = value, arr) : arr), {}), [currencies]);
 
-  const filteredLanguages = Object.entries(languages).reduce((arr, [key, value]) => (value ? (arr[key] = value, arr) : arr), {});
-  const languageArr = Object.values(filteredLanguages);
-  const languageJSX = languageArr.map(each =>
-    <Typography component='span' key={each}>{each}</Typography>
-  );
+  const currencyArr = useMemo(() => Object.values(filteredCurrencies), [filteredCurrencies]);
+  const currencyJSX = useMemo(() => currencyArr.map(currency =>
+    <Typography component='span' key={currency.name}>{currency.name}</Typography>
+  ), [currencyArr]);
 
-  const isBordering = borders?.length ? true : false;
-  const borderJSX = isBordering ? borders.map(each => <Chip label={each} component="li" key={each} />) : <Typography>n/a</Typography>
+  const filteredLanguages = useMemo(() => Object.entries(languages).reduce((arr, [key, value]) => (value ? (arr[key] = value, arr) : arr), {}), [languages]);
+  const languageArr = useMemo(() => Object.values(filteredLanguages), [filteredLanguages]);
+  const languageJSX = useMemo(() => languageArr.map(language =>
+    <Typography component='span' key={language}>{language}</Typography>
+  ), [languageArr]);
+
+
+  const isBordering = useMemo(() => borders?.length ? true : false, [borders]);
+
+  const BorderLinks = useMemo(() => isBordering && borders.map(shortHandCountryName => {
+    const allCountries = data.allCountries.nodes;
+    const countryString = allCountries.filter(country => shortHandCountryName === country.cca3)[0].name.common;
+    const link = `/${countryString}`
+
+    const handleClick = () => navigate(link);
+
+    return (
+      < Chip label={shortHandCountryName} component="li" onClick={handleClick} key={shortHandCountryName} />
+    )
+  }), [isBordering, borders, data.allCountries.nodes]);
+
+  const borderJSX = useMemo(() => isBordering ? BorderLinks : <Typography>n/a</Typography>, [isBordering, BorderLinks])
+
 
   return (
     <ThemeProvider theme={themeMode === 'dark' ? darkTheme : lightTheme}>
@@ -86,6 +102,16 @@ export default Country;
 
 export const data = graphql`
     query ($countryName: String!) {
+  allCountries: allInternalCountries {
+    nodes {
+      cca3
+      name {
+        common
+      }
+    }
+  }
+
+
   allInternalCountries(filter: {name: {common: {eq: $countryName}}}) {
     edges {
       node {
