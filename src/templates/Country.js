@@ -1,6 +1,7 @@
 import { CardMedia, Chip, Grid, Stack, ThemeProvider, Typography } from '@mui/material';
 import { graphql, navigate } from 'gatsby';
 import React, { useMemo, useState } from 'react';
+import BackButton from '../components/BackButton';
 import Header from '../components/Header';
 import { darkTheme, lightTheme } from '../styles/theme';
 
@@ -47,7 +48,7 @@ function Country({ data }) {
         sx={{ backgroundColor: 'background.default', minHeight: "100vh", height: '100%' }}
       >
         <Header themeMode={themeMode} setThemeMode={setThemeMode} />
-        {/* make back button */}
+        <BackButton />
         <Stack direction={{ xs: "column", md: 'row' }} spacing={{ xs: 4, md: 16 }}
           sx={{ p: 4, m: 'auto' }}
         >
