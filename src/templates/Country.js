@@ -21,7 +21,7 @@ function Country({ data }) {
     <Typography component='span' key={each}>{each}</Typography>
   );
 
-  const isBordering = Boolean(borders?.length);
+  const isBordering = borders?.length ? true : false;
   const borderJSX = isBordering ? borders.map(each => <Chip label={each} component="li" key={each} />) : <Typography>n/a</Typography>
 
   return (
@@ -64,7 +64,7 @@ function Country({ data }) {
             </Typography>
             <Grid component='ul' sx={{ p: 0 }} columns={9} container>
               <Grid item xs={9} md={4}>
-                <Typography sx={{ flexGrow: '1' }} item>Border Countries:{" "}</Typography>
+                <Typography sx={{ flexGrow: '1' }}>Border Countries:{" "}</Typography>
               </Grid>
               <Grid md={5} sx={{ alignSelf: 'center' }} item>
                 {borderJSX}
@@ -78,6 +78,11 @@ function Country({ data }) {
 };
 
 export default Country;
+
+// export const Head = ({ data }) => {
+//   const { name } = data.allInternalCountries.edges[0].node;
+//   return <title>{name} Page</title>
+// };
 
 export const data = graphql`
     query ($countryName: String!) {
@@ -746,4 +751,5 @@ export const data = graphql`
       }
     }
   }
-}`;
+}
+`;
