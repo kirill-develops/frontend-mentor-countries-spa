@@ -8,8 +8,8 @@ import { darkTheme, lightTheme } from "../styles/theme";
 
 
 const IndexPage = () => {
-  const [region, setRegion] = useState();
-  const [search, setSearch] = useState();
+  const [region, setRegion] = useState('');
+  const [search, setSearch] = useState('');
   const [themeMode, setThemeMode] = useState('dark');
 
   return (
