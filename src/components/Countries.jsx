@@ -50,7 +50,9 @@ function Countries({ region: regionState, nameSearch }) {
       container
       spacing={{ xs: 4, sm: 6, md: 8, lg: 7, xl: 10 }}
       sx={{
-        p: { xs: 4, sm: 6, md: 8, lg: 7, xl: 10 },
+        px: { xs: 4, sm: 6, md: 8, lg: 7, xl: 12 },
+        pb: { xs: 4, sm: 6, md: 8, lg: 7, xl: 12 },
+        pt: 2,
         alignItems: 'stretch',
       }}
     >
