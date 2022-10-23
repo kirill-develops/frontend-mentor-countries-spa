@@ -1,44 +1,113 @@
-import { CardMedia, Chip, Grid, Stack, ThemeProvider, Typography } from '@mui/material';
+import { Box, Chip, Stack, ThemeProvider, Typography } from '@mui/material';
 import { graphql, navigate } from 'gatsby';
+import Image from 'mui-image';
 import React, { useMemo, useState } from 'react';
 import BackButton from '../components/BackButton';
 import Header from '../components/Header';
 import { darkTheme, lightTheme } from '../styles/theme';
 
+const fontProps = {
+  fontSize: 16
+}
+
+const descriptorFontProps = {
+  ...fontProps,
+  fontWeight: 600,
+}
+
+const titleFontProps = {
+  fontSize: 26,
+  fontWeight: 800,
+}
+
 function Country({ data }) {
   const [themeMode, setThemeMode] = useState('dark');
-
-  const { borders, capital, currencies, flags, languages, name, population, region, subregion, tld } = useMemo(() => data.allInternalCountries.edges[0].node, [data.allInternalCountries]);
-
-  const filteredCurrencies = useMemo(() => Object.entries(currencies).reduce((arr, [key, value]) => (value ? (arr[key] = value, arr) : arr), {}), [currencies]);
-
-  const currencyArr = useMemo(() => Object.values(filteredCurrencies), [filteredCurrencies]);
-  const currencyJSX = useMemo(() => currencyArr.map(currency =>
-    <Typography component='span' key={currency.name}>{currency.name}</Typography>
-  ), [currencyArr]);
-
-  const filteredLanguages = useMemo(() => Object.entries(languages).reduce((arr, [key, value]) => (value ? (arr[key] = value, arr) : arr), {}), [languages]);
-  const languageArr = useMemo(() => Object.values(filteredLanguages), [filteredLanguages]);
-  const languageJSX = useMemo(() => languageArr.map(language =>
-    <Typography component='span' key={language}>{language}</Typography>
-  ), [languageArr]);
+  const isDark = themeMode === 'dark';
 
 
-  const isBordering = useMemo(() => borders?.length ? true : false, [borders]);
+  const { borders, capital, currencies, flags, languages, name, population, region, subregion, tld } = useMemo(() =>
+    data.allInternalCountries.edges[0].node
+    , [data.allInternalCountries]);
 
-  const BorderLinks = useMemo(() => isBordering && borders.map(shortHandCountryName => {
-    const allCountries = data.allCountries.nodes;
-    const countryString = allCountries.filter(country => shortHandCountryName === country.cca3)[0].name.common;
-    const link = `/${countryString}`
 
-    const handleClick = () => navigate(link);
+  const filteredCurrencies = useMemo(() =>
+    Object.entries(currencies).reduce((arr, [key, value]) => (value ? (arr[key] = value, arr) : arr), {})
+    , [currencies]);
 
-    return (
-      < Chip label={shortHandCountryName} component="li" onClick={handleClick} key={shortHandCountryName} />
-    )
-  }), [isBordering, borders, data.allCountries.nodes]);
+  const currencyArr = useMemo(() =>
+    Object.values(filteredCurrencies)
+    , [filteredCurrencies]);
 
-  const borderJSX = useMemo(() => isBordering ? BorderLinks : <Typography>n/a</Typography>, [isBordering, BorderLinks])
+  const currencyJSX = useMemo(() =>
+    currencyArr.map(currency =>
+      <Typography
+        variant="body2"
+        component='span'
+        sx={fontProps}
+        key={currency.name}
+      >
+        {currency.name}
+      </Typography>
+    ), [currencyArr]);
+
+
+  const filteredLanguages = useMemo(() =>
+    Object.entries(languages).reduce((arr, [key, value]) =>
+      (value ? (arr[key] = value, arr) : arr), {})
+    , [languages]);
+
+  const languageArr = useMemo(() =>
+    Object.values(filteredLanguages)
+    , [filteredLanguages]);
+
+  const languageJSX = useMemo(() =>
+    languageArr.map((language, i) => {
+      const isLast = i === languageArr.length - 1 ? true : false;
+      return <Typography
+        variant="body2"
+        component='span'
+        sx={fontProps}
+        key={language}
+      >
+        {language}{isLast ? '' : `,${' '}`}
+      </Typography>
+    }
+    ), [languageArr]);
+
+
+  const isBordering = useMemo(() =>
+    borders?.length ? true : false
+    , [borders]);
+
+  const BorderLinks = useMemo(() =>
+    isBordering && borders.map(shortHandCountryName => {
+      const allCountries = data.allCountries.nodes;
+
+      const countryString = allCountries
+        .filter(country => shortHandCountryName === country.cca3)
+      [0].name.common;
+
+      const link = `/${countryString}`
+
+      const handleClick = () => navigate(link);
+
+
+      return (
+        < Chip
+          label={countryString}
+          component="li"
+          onClick={handleClick}
+          key={shortHandCountryName}
+          clickable
+        />
+      )
+    }), [isBordering, borders, data.allCountries.nodes]);
+
+  const borderJSX = useMemo(() =>
+    isBordering
+      ? BorderLinks
+      : <Typography>n/a</Typography>
+    , [isBordering, BorderLinks])
 
 
   return (
@@ -48,45 +117,112 @@ function Country({ data }) {
         sx={{ backgroundColor: 'background.default', minHeight: "100vh", height: '100%' }}
       >
         <Header themeMode={themeMode} setThemeMode={setThemeMode} />
-        <BackButton />
-        <Stack direction={{ xs: "column", md: 'row' }} spacing={{ xs: 4, md: 16 }}
-          sx={{ p: 4, m: 'auto' }}
+        <BackButton isDark={isDark} />
+        <Stack direction={{ xs: "column", md: 'row' }}
+          spacing={{ xs: 4, md: 6, lg: 12 }}
+          sx={{ px: 4, pb: 20, justifyContent: "space-evenly" }}
         >
-          <CardMedia component='img' src={flags.svg} sx={{ width: { md: '40%' }, aspectRatio: '3/2', mx: { xs: 'auto', md: "initial" } }} />
-          <Stack direction='column' sx={{ color: 'text.primary' }}>
-            <Typography>{name.common}</Typography>
-            <Typography>Native Name:{" "}
-              <Typography component='span'>{name.official}</Typography>
+          <Box sx={{
+            width: { md: '50%' },
+            mx: { xs: 'auto', md: "initial" }
+          }}>
+
+            <Image
+              src={flags.svg}
+              alt={`${name}'s flag`}
+              shift="right"
+              fit='contain'
+              sx={{
+                maxHeight: { md: "50vh" },
+                aspectRatio: "3 / 2",
+              }}
+            />
+          </Box>
+          <Stack direction='column' sx={{
+            color: 'text.primary',
+            width: { md: '50%' },
+            gap: 4,
+            justifyContent: "space-evenly"
+          }}>
+            <Typography variant='h2' sx={titleFontProps}>
+              {name.common}
             </Typography>
-            <Typography>Population:{" "}
-              <Typography component='span'>{population}</Typography>
-            </Typography>
-            <Typography>Region:{" "}
-              <Typography component='span'>{region}</Typography>
-            </Typography>
-            <Typography>Sub Region:{" "}
-              <Typography component='span'>{subregion}</Typography>
-            </Typography>
-            <Typography>capital:{" "}
-              <Typography component='span'>{capital}</Typography>
-            </Typography>
-            <Typography>Top Level Domain:{" "}
-              <Typography component='span'>{tld}</Typography>
-            </Typography>
-            <Typography>Currencies:{" "}
-              {currencyJSX}
-            </Typography>
-            <Typography>Languages:{" "}
-              {languageJSX}
-            </Typography>
-            <Grid component='ul' sx={{ p: 0 }} columns={9} container>
-              <Grid item xs={9} md={4}>
-                <Typography sx={{ flexGrow: '1' }}>Border Countries:{" "}</Typography>
-              </Grid>
-              <Grid md={5} sx={{ alignSelf: 'center' }} item>
-                {borderJSX}
-              </Grid>
-            </Grid>
+
+            {/* // * COUNTRY DETAILS */}
+            <Stack
+              direction={{ sm: 'column', md: 'row' }}
+              sx={{ gap: 4 }}
+            >
+              <Stack gap={1}>
+                <Typography variant='h6' sx={descriptorFontProps}>
+                  Native Name:{" "}
+                  <Typography
+                    variant="body2"
+                    component='span'
+                    sx={fontProps}
+                  >
+                    {name.official}
+                  </Typography>
+                </Typography>
+                <Typography
+                  variant='h6'
+                  sx={descriptorFontProps}
+                >
+                  Population:{" "}
+                  <Typography variant="body2" component='span' sx={fontProps}>
+                    {population}
+                  </Typography>
+                </Typography>
+                <Typography
+                  variant='h6'
+                  sx={descriptorFontProps}
+                >
+                  Region:{" "}
+                  <Typography variant="body2" component='span' sx={fontProps}>
+                    {region}
+                  </Typography>
+                </Typography >
+                <Typography
+                  variant='h6'
+                  sx={descriptorFontProps}
+                >
+                  Sub Region:{" "}
+                  <Typography variant="body2" component='span' sx={fontProps}>
+                    {subregion}
+                  </Typography>
+                </Typography>
+                <Typography variant='h6' sx={descriptorFontProps}>
+                  capital:{" "}
+                  <Typography variant="body2" component='span' sx={fontProps}>
+                    {capital}
+                  </Typography>
+                </Typography>
+              </Stack>
+              <Stack gap={1}>
+                <Typography variant='h6' sx={descriptorFontProps}>
+                  Top Level Domain:{" "}
+                  <Typography variant="body2" component='span' sx={fontProps}>
+                    {tld}
+                  </Typography>
+                </Typography>
+                <Typography variant='h6' sx={descriptorFontProps}>
+                  Currencies:{" "}
+                  {currencyJSX}
+                </Typography>
+                <Typography variant='h6' sx={descriptorFontProps}>
+                  Languages:{" "}
+                  {languageJSX}
+                </Typography>
+              </Stack>
+            </Stack>
+
+            {/* // * BORDER COUNTRIES  */}
+            <Stack direction={{ md: "row" }} gap={{ xs: 1, md: 2 }}>
+              <Typography variant='h6' sx={{ ...descriptorFontProps }}>
+                Border Countries:{" "}
+              </Typography>
+              <Stack direction='row' gap={1} flexWrap='wrap'>{borderJSX}</Stack>
+            </Stack>
           </Stack>
         </Stack>
       </Stack>
