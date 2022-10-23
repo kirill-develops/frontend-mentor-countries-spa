@@ -27,25 +27,21 @@ function Country({ data }) {
     , [data.allInternalCountries]);
 
 
-  const filteredCurrencies = useMemo(() =>
-    Object.entries(currencies).reduce((arr, [key, value]) => (value ? (arr[key] = value, arr) : arr), {})
-    , [currencies]);
+  const currencyJSX = useMemo(() => {
+    if (!currencies?.length) return (
+      <Typography variant="body2" component='span' sx={fontProps}>n/a</Typography>
+    );
 
-  const currencyArr = useMemo(() =>
-    Object.values(filteredCurrencies)
-    , [filteredCurrencies]);
+    const filteredCurrencies = Object.entries(currencies).reduce((arr, [key, value]) => (value ? (arr[key] = value, arr) : arr), {});
 
-  const currencyJSX = useMemo(() =>
-    currencyArr.map(currency =>
-      <Typography
-        variant="body2"
-        component='span'
-        sx={fontProps}
-        key={currency.name}
-      >
+    const currencyArr = Object.values(filteredCurrencies);
+
+    return currencyArr.map(currency =>
+      <Typography variant="body2" component='span' sx={fontProps} key={currency.name}>
         {currency.name}
       </Typography>
-    ), [currencyArr]);
+    )
+  }, [currencies]);
 
 
   const filteredLanguages = useMemo(() =>
@@ -102,7 +98,9 @@ function Country({ data }) {
   const borderJSX = useMemo(() =>
     isBordering
       ? BorderLinks
-      : <Typography>n/a</Typography>
+      : <Typography variant="body2" component='span' sx={fontProps}>
+        n/a
+      </Typography>
     , [isBordering, BorderLinks])
 
 
@@ -175,7 +173,7 @@ function Country({ data }) {
                 >
                   Region:{" "}
                   <Typography variant="body2" component='span' sx={fontProps}>
-                    {region}
+                    {region || 'n/a'}
                   </Typography>
                 </Typography >
                 <Typography
@@ -184,13 +182,13 @@ function Country({ data }) {
                 >
                   Sub Region:{" "}
                   <Typography variant="body2" component='span' sx={fontProps}>
-                    {subregion}
+                    {subregion || 'n/a'}
                   </Typography>
                 </Typography>
                 <Typography variant='h6' sx={descriptorFontProps}>
-                  capital:{" "}
+                  Capital:{" "}
                   <Typography variant="body2" component='span' sx={fontProps}>
-                    {capital}
+                    {capital || 'n/a'}
                   </Typography>
                 </Typography>
               </Stack>
@@ -198,7 +196,7 @@ function Country({ data }) {
                 <Typography variant='h6' sx={descriptorFontProps}>
                   Top Level Domain:{" "}
                   <Typography variant="body2" component='span' sx={fontProps}>
-                    {tld}
+                    {tld || 'n/a'}
                   </Typography>
                 </Typography>
                 <Typography variant='h6' sx={descriptorFontProps}>
