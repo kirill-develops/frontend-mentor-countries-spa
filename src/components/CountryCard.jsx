@@ -1,11 +1,6 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Typography,
-} from '@mui/material';
+import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 import { CardActionArea, Link } from 'gatsby-theme-material-ui';
+import Image from 'mui-image';
 import React from 'react';
 import { columnFlexProps } from '../styles/theme';
 
@@ -30,16 +25,19 @@ function CountryCard({ data }) {
         component={Link}
         to={`/${data.name.common}`}
       >
-        <CardMedia
-          image={data?.flags?.svg}
+        <Image
+          src={data?.flags?.svg}
           alt={`${data?.name?.common} flag`}
-          sx={{ aspectRatio: '3/2' }}
+          sx={{ aspectRatio: '7/4' }}
+          loading="lazy"
+          fit="cover"
         />
         <CardHeader
           title={data?.name?.common}
           titleTypographyProps={cardTitleFontProps}
+          sx={{ p: 3 }}
         />
-        <CardContent sx={columnFlexProps}>
+        <CardContent sx={{ ...columnFlexProps, pt: 0, pb: 5, px: 3 }}>
           <Typography
             variant="subtitle2"
             sx={cardDescriptorFontProps}
