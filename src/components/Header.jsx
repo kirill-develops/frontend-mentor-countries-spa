@@ -5,8 +5,14 @@ import React from 'react';
 
 function Header({ themeMode, setThemeMode }) {
   const handleThemeChange = () => {
-    if (themeMode === 'dark') setThemeMode('light');
-    if (themeMode === 'light') setThemeMode('dark');
+    if (themeMode === 'dark') {
+      localStorage.setItem('themeMode', 'light');
+      setThemeMode('light');
+    }
+    if (themeMode === 'light') {
+      localStorage.setItem('themeMode', 'dark');
+      setThemeMode('dark');
+    }
   };
 
   const themeModeString = themeMode === 'dark' ? 'Light' : 'Dark';

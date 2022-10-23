@@ -1,10 +1,11 @@
-import { Box, Chip, Stack, ThemeProvider, Typography } from '@mui/material';
+import { Box, Chip, Stack, Typography } from '@mui/material';
 import { graphql, navigate } from 'gatsby';
 import Image from 'mui-image';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import BackButton from '../components/BackButton';
-import Header from '../components/Header';
-import { darkTheme, lightTheme } from '../styles/theme';
+import Layout from '../components/Layout';
+import { mainStyleProps } from '../styles/theme';
+
 
 const fontProps = {
   fontSize: 16
@@ -21,10 +22,6 @@ const titleFontProps = {
 }
 
 function Country({ data }) {
-  const [themeMode, setThemeMode] = useState('dark');
-  const isDark = themeMode === 'dark';
-
-
   const { borders, capital, currencies, flags, languages, name, population, region, subregion, tld } = useMemo(() =>
     data.allInternalCountries.edges[0].node
     , [data.allInternalCountries]);
@@ -91,7 +88,6 @@ function Country({ data }) {
 
       const handleClick = () => navigate(link);
 
-
       return (
         < Chip
           label={countryString}
@@ -111,16 +107,15 @@ function Country({ data }) {
 
 
   return (
-    <ThemeProvider theme={themeMode === 'dark' ? darkTheme : lightTheme}>
+    <Layout>
       <Stack as='main'
         direction='column'
-        sx={{ backgroundColor: 'background.default', minHeight: "100vh", height: '100%' }}
+        sx={mainStyleProps}
       >
-        <Header themeMode={themeMode} setThemeMode={setThemeMode} />
-        <BackButton isDark={isDark} />
+        <BackButton />
         <Stack direction={{ xs: "column", md: 'row' }}
           spacing={{ xs: 4, md: 6, lg: 12 }}
-          sx={{ px: 4, pb: 20, justifyContent: "space-evenly" }}
+          sx={{ px: 4, pb: { xs: 10, md: 20 }, justifyContent: "space-evenly", my: { md: 'auto' } }}
         >
           <Box sx={{
             width: { md: '50%' },
@@ -138,6 +133,7 @@ function Country({ data }) {
               }}
             />
           </Box>
+          {/* // * COUNTRY INFO */}
           <Stack direction='column' sx={{
             color: 'text.primary',
             width: { md: '50%' },
@@ -170,7 +166,7 @@ function Country({ data }) {
                 >
                   Population:{" "}
                   <Typography variant="body2" component='span' sx={fontProps}>
-                    {population}
+                    {population.toLocaleString("en-US")}
                   </Typography>
                 </Typography>
                 <Typography
@@ -226,7 +222,7 @@ function Country({ data }) {
           </Stack>
         </Stack>
       </Stack>
-    </ThemeProvider >
+    </Layout>
   )
 };
 
