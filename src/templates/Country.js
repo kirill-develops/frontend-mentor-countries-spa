@@ -28,7 +28,7 @@ function Country({ data }) {
 
 
   const currencyJSX = useMemo(() => {
-    if (!currencies?.length) return (
+    if (currencies === null) return (
       <Typography variant="body2" component='span' sx={fontProps}>n/a</Typography>
     );
 
@@ -44,28 +44,24 @@ function Country({ data }) {
   }, [currencies]);
 
 
-  const filteredLanguages = useMemo(() =>
-    Object.entries(languages).reduce((arr, [key, value]) =>
-      (value ? (arr[key] = value, arr) : arr), {})
-    , [languages]);
+  const languageJSX = useMemo(() => {
+    if (languages === null) return (
+      <Typography variant="body2" component='span' sx={fontProps}>n/a</Typography>
+    );
 
-  const languageArr = useMemo(() =>
-    Object.values(filteredLanguages)
-    , [filteredLanguages]);
+    const filteredLanguages = Object.entries(languages).reduce((arr, [key, value]) =>
+      (value ? (arr[key] = value, arr) : arr), {});
 
-  const languageJSX = useMemo(() =>
-    languageArr.map((language, i) => {
+    const languageArr = Object.values(filteredLanguages);
+
+    return languageArr.map((language, i) => {
       const isLast = i === languageArr.length - 1 ? true : false;
-      return <Typography
-        variant="body2"
-        component='span'
-        sx={fontProps}
-        key={language}
-      >
+
+      return <Typography variant="body2" component='span' sx={fontProps} key={language}>
         {language}{isLast ? '' : `,${' '}`}
       </Typography>
-    }
-    ), [languageArr]);
+    });
+  }, [languages]);
 
 
   const isBordering = useMemo(() =>
