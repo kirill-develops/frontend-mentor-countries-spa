@@ -1,4 +1,4 @@
-import { Box, Stack, ThemeProvider, useMediaQuery } from '@mui/material';
+import { Stack, ThemeProvider, useMediaQuery } from '@mui/material';
 import React, { useState } from 'react';
 import { darkTheme, lightTheme } from '../styles/theme';
 import Header from '../components/Header';
