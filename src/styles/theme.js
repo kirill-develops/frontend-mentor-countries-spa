@@ -75,4 +75,6 @@ export const darkTheme = createTheme(theme, {
   }
 })
 
+export const columnFlexProps = { display: 'flex', flexDirection: 'column' }
+
 export default theme;

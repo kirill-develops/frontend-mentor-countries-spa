@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { CardActionArea, Link } from 'gatsby-theme-material-ui';
 import React from 'react';
-import { columnFlex } from '../styles/theme';
+import { columnFlexProps } from '../styles/theme';
 
 const cardFontProps = {
   fontSize: '14px',
@@ -39,7 +39,7 @@ function CountryCard({ data }) {
           title={data?.name?.common}
           titleTypographyProps={cardTitleFontProps}
         />
-        <CardContent sx={columnFlex}>
+        <CardContent sx={columnFlexProps}>
           <Typography
             variant="subtitle2"
             sx={cardDescriptorFontProps}
