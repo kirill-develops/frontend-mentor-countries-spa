@@ -14,6 +14,12 @@ module.exports = {
       }
     },
     {
+      resolve: `gatsby-plugin-s3`,
+      options: {
+        bucketName: "countries-frontend-mentor",
+      },
+    },
+    {
       resolve: 'gatsby-source-filesystem',
       options: {
         "name": "images",
