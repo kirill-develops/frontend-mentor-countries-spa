@@ -11,11 +11,16 @@ function Header({ themeMode, setThemeMode }) {
 
   return (
     <AppBar
-      position="static"
+      position="sticky"
       sx={{ backgroundColor: 'background.paper', color: 'text.primary' }}
     >
       <Toolbar>
-        <Typography sx={{ flexGrow: 1 }}>Where In The World?</Typography>
+        <Typography
+          variant="h1"
+          sx={{ flexGrow: 1, fontSize: 16, fontWeight: 800 }}
+        >
+          Where In The World?
+        </Typography>
         <Button
           color="inherit"
           startIcon={<DarkModeIcon />}
