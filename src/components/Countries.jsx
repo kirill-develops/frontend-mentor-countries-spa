@@ -40,7 +40,7 @@ function Countries({ region: regionState, nameSearch }) {
         sm={6}
         md={4}
         lg={3}
-        xl={2}
+        xl={3}
         children={<CountryCard data={each} />}
       />
     ));
@@ -48,8 +48,11 @@ function Countries({ region: regionState, nameSearch }) {
   return (
     <Grid
       container
-      spacing={4}
-      sx={{ p: 4, alignItems: 'stretch' }}
+      spacing={{ xs: 4, sm: 6, md: 8, lg: 7, xl: 10 }}
+      sx={{
+        p: { xs: 4, sm: 6, md: 8, lg: 7, xl: 10 },
+        alignItems: 'stretch',
+      }}
     >
       {countries}
     </Grid>
