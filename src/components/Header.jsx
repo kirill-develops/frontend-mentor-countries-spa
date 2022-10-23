@@ -9,6 +9,8 @@ function Header({ themeMode, setThemeMode }) {
     if (themeMode === 'light') setThemeMode('dark');
   };
 
+  const themeModeString = themeMode === 'dark' ? 'Light' : 'Dark';
+
   return (
     <AppBar
       position="relative"
@@ -25,8 +27,9 @@ function Header({ themeMode, setThemeMode }) {
           color="inherit"
           startIcon={<DarkModeIcon />}
           onClick={handleThemeChange}
+          sx={{ width: '135px', fontWeight: 600 }}
         >
-          Dark Mode
+          {themeModeString} Mode
         </Button>
       </Toolbar>
     </AppBar>
