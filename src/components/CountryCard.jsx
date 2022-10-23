@@ -48,7 +48,7 @@ function CountryCard({ data }) {
               component="span"
               sx={cardFontProps}
             >
-              {data?.population}
+              {data?.population.toLocaleString('en-US')}
             </Typography>
           </Typography>
           <Typography
