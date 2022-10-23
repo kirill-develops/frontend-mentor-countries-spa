@@ -11,7 +11,7 @@ function Header({ themeMode, setThemeMode }) {
 
   return (
     <AppBar
-      position="sticky"
+      position="relative"
       sx={{ backgroundColor: 'background.paper', color: 'text.primary' }}
     >
       <Toolbar>

@@ -2,8 +2,7 @@ import { Stack, ThemeProvider } from "@mui/material"
 import React, { useState } from "react"
 import Countries from "../components/Countries";
 import Header from "../components/Header";
-import RegionSelect from "../components/RegionSelect";
-import Search from "../components/Search";
+import SearchHeader from "../components/SearchHeader/SearchHeader";
 import { darkTheme, lightTheme } from "../styles/theme";
 
 
@@ -11,24 +10,38 @@ const IndexPage = () => {
   const [region, setRegion] = useState('');
   const [search, setSearch] = useState('');
   const [themeMode, setThemeMode] = useState('dark');
+  const isDark = themeMode === 'dark';
 
   return (
-    <ThemeProvider theme={themeMode === 'dark' ? darkTheme : lightTheme}>
+    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
       <Stack as='main'
         direction='column'
         sx={{ backgroundColor: 'background.default', minHeight: "100vh" }}
       >
-        <Header themeMode={themeMode} setThemeMode={setThemeMode} />
         <Stack
-          direction={{ xs: 'column', sm: 'row' }}
-          sx={{ justifyContent: { sm: 'space-between' } }}
+          sx={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 1,
+            flexDirection: 'column',
+            gap: 3,
+            pb: 3
+          }}
+          backgroundColor={
+            isDark
+              ? darkTheme.palette.background.default
+              : lightTheme.palette.background.default
+          }
         >
-          <Search search={search} setSearch={setSearch} />
-          <RegionSelect setRegion={setRegion} />
+          <Header themeMode={themeMode} setThemeMode={setThemeMode} />
+          <SearchHeader
+            search={search}
+            setSearch={setSearch}
+            setRegion={setRegion} />
         </Stack>
         <Countries region={region} nameSearch={search} />
       </Stack>
-    </ThemeProvider>
+    </ThemeProvider >
   )
 };
 
