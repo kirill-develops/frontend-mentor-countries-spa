@@ -7,6 +7,21 @@ import {
 } from '@mui/material';
 import { CardActionArea, Link } from 'gatsby-theme-material-ui';
 import React from 'react';
+import { columnFlex } from '../styles/theme';
+
+const cardFontProps = {
+  fontSize: '14px',
+};
+
+const cardTitleFontProps = {
+  fontSize: '16px',
+  fontWeight: 800,
+};
+
+const cardDescriptorFontProps = {
+  ...cardFontProps,
+  fontWeight: 600,
+};
 
 function CountryCard({ data }) {
   return (
@@ -20,17 +35,49 @@ function CountryCard({ data }) {
           alt={`${data?.name?.common} flag`}
           sx={{ aspectRatio: '3/2' }}
         />
-        <CardHeader title={data?.name?.common} />
-        <CardContent>
-          <Typography>
+        <CardHeader
+          title={data?.name?.common}
+          titleTypographyProps={cardTitleFontProps}
+        />
+        <CardContent sx={columnFlex}>
+          <Typography
+            variant="subtitle2"
+            sx={cardDescriptorFontProps}
+          >
             Population:{' '}
-            <Typography component="span">{data?.population}</Typography>
+            <Typography
+              variant="body1"
+              component="span"
+              sx={cardFontProps}
+            >
+              {data?.population}
+            </Typography>
           </Typography>
-          <Typography>
-            Region: <Typography component="span">{data?.region}</Typography>
+          <Typography
+            variant="subtitle2"
+            sx={cardDescriptorFontProps}
+          >
+            Region:{' '}
+            <Typography
+              variant="body1"
+              component="span"
+              sx={cardFontProps}
+            >
+              {data?.region}
+            </Typography>
           </Typography>
-          <Typography>
-            Capital: <Typography component="span">{data?.capital}</Typography>
+          <Typography
+            variant="subtitle2"
+            sx={cardDescriptorFontProps}
+          >
+            Capital:{' '}
+            <Typography
+              variant="body1"
+              component="span"
+              sx={cardFontProps}
+            >
+              {data?.capital}
+            </Typography>
           </Typography>
         </CardContent>
       </CardActionArea>
