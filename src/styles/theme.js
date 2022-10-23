@@ -16,6 +16,24 @@ const theme = createTheme({
         }
       }
     },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          borderRadius: 6,
+          boxShadow:
+            '0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%)'
+        }
+      }
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          "& > fieldset": {
+            borderColor: 'rgba(0,0,0,0)'
+          }
+        }
+      }
+    }
   }
 });
 
@@ -23,7 +41,7 @@ export const lightTheme = createTheme(theme, {
   palette: {
     type: 'light',
     primary: {
-      main: '#3f51b5',
+      main: '#191b1c',
     },
     secondary: {
       main: '#f50057',
@@ -36,6 +54,13 @@ export const lightTheme = createTheme(theme, {
     },
   },
   components: {
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#fff"
+        },
+      }
+    },
     MuiChip: {
       styleOverrides: {
         root: {
@@ -91,6 +116,12 @@ export const darkTheme = createTheme(theme, {
   }
 })
 
-export const columnFlexProps = { display: 'flex', flexDirection: 'column' }
+export const columnFlexProps = { display: 'flex', flexDirection: 'column' };
+
+export const mainStyleProps = {
+  backgroundColor: 'background.default',
+  flexGrow: 1,
+  height: "100%"
+}
 
 export default theme;
