@@ -11,7 +11,8 @@ const gatsbyRequiredRules = path.join(
 module.exports = {
   siteMetadata: {
     title: `Frontend Mentor Countries RestAPI Challenge`,
-    siteUrl: `https://www.yourdomain.tld`
+    siteUrl: `http://countries-frontend-mentor.s3-website-us-east-1.amazonaws.com/`,
+    description: 'Displaying global countries & relevent information by integrating with the REST Countries API to pull country data',
   },
   plugins: [
     "gatsby-plugin-image",
@@ -20,14 +21,14 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        "icon": "src/images/icon.png"
+        name: "Worldwide National Data Center",
+        short_name: "Countries National Data",
+        description: 'Displaying global countries & relevent information by integrating with the REST Countries API to pull country data',
+        start_url: "/",
+        icon: "src/images/globe.svg",
+        theme_color_in_head: false,
+        display: 'browser'
       }
-    },
-    {
-      resolve: `gatsby-plugin-s3`,
-      options: {
-        bucketName: "countries-frontend-mentor",
-      },
     },
     {
       resolve: 'gatsby-source-filesystem',
@@ -36,6 +37,20 @@ module.exports = {
         "path": "./src/images/"
       },
       __key: "images"
+    },
+    {
+      resolve: "gatsby-source-apiserver",
+      options: {
+        typePrefix: "internal__",
+        url: "https://restcountries.com/v3.1/all",
+        method: "get",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        name: `countries`,
+        allowCache: true,
+        maxCacheDurationSeconds: 60 * 60 * 24,
+      }
     },
     {
       resolve: "gatsby-theme-material-ui",
@@ -53,26 +68,18 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-source-apiserver",
-      options: {
-        typePrefix: "internal__",
-        url: "https://restcountries.com/v3.1/all",
-        method: "get",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        name: `countries`,
-        allowCache: true,
-        maxCacheDurationSeconds: 60 * 60 * 24,
-      }
-    },
-    {
       resolve: "gatsby-plugin-eslint",
       options: {
         rulePaths: [gatsbyRequiredRules],
         stages: ["develop"],
         extensions: ["js", "jsx", "ts", "tsx"],
         exclude: ["node_modules", "bower_components", ".cache", "public"],
+      },
+    },
+    {
+      resolve: `gatsby-plugin-s3`,
+      options: {
+        bucketName: "countries-frontend-mentor",
       },
     },
   ]
