@@ -1,60 +1,24 @@
-import { Grid } from '@mui/material';
-import { graphql, useStaticQuery } from 'gatsby';
+import Grid from '@mui/material/Grid';
 import React from 'react';
-import CountryCard from './CountryCard';
+import useCountriesData from '../hooks/useCountriesData';
+
+const gridStyleProps = {
+  px: { xs: 4, sm: 6, md: 8, lg: 7, xl: 12 },
+  pt: 2,
+  pb: { xs: 4, sm: 6, md: 8, lg: 7, xl: 12 },
+  alignItems: 'stretch',
+};
+
+const gridSpacingProps = { xs: 4, sm: 6, md: 8, lg: 7, xl: 10 };
 
 function Countries({ region: regionState, nameSearch }) {
-  const data = useStaticQuery(graphql`
-    query allCountries {
-      allInternalCountries {
-        nodes {
-          capital
-          flags {
-            svg
-          }
-          name {
-            common
-          }
-          population
-          region
-        }
-      }
-    }
-  `);
-
-  const countries = data?.allInternalCountries?.nodes
-    ?.filter(({ name }) => name !== null)
-    .filter(({ region }) => {
-      if (regionState === undefined || regionState === '') return region;
-      return region === regionState;
-    })
-    .filter(({ name }) => {
-      if (nameSearch === undefined || nameSearch === '') return name;
-      return name.common.toLowerCase().includes(nameSearch.toLowerCase());
-    })
-    .map((each) => (
-      <Grid
-        item
-        key={each.name?.common}
-        xs={12}
-        sm={6}
-        md={4}
-        lg={3}
-        xl={3}
-        children={<CountryCard data={each} />}
-      />
-    ));
+  const countries = useCountriesData([regionState, nameSearch]);
 
   return (
     <Grid
       container
-      spacing={{ xs: 4, sm: 6, md: 8, lg: 7, xl: 10 }}
-      sx={{
-        px: { xs: 4, sm: 6, md: 8, lg: 7, xl: 12 },
-        pb: { xs: 4, sm: 6, md: 8, lg: 7, xl: 12 },
-        pt: 2,
-        alignItems: 'stretch',
-      }}
+      spacing={gridSpacingProps}
+      sx={gridStyleProps}
     >
       {countries}
     </Grid>
