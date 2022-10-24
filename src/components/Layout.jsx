@@ -1,10 +1,10 @@
 import Stack from '@mui/material/Stack';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider, useMediaQuery } from '@mui/material';
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import SearchHeader from '../components/SearchHeader/SearchHeader';
 import { darkTheme, lightTheme, mainStyleProps } from '../styles/theme';
+import '../styles/global-styles.css';
 
 const headerStyleProps = {
   position: 'sticky',
@@ -22,10 +22,10 @@ function Layout({ location, children, setRegion, setSearch, search }) {
 
   let storedTheme;
   if (typeof Storage !== 'undefined') {
-    if (localStorage.getItem('themeMode'))
-      storedTheme = localStorage.getItem('themeMode');
+    if (localStorage.getItem('color-mode'))
+      storedTheme = localStorage.getItem('color-mode');
     else {
-      localStorage.setItem('themeMode', prefersMode);
+      localStorage.setItem('color-mode', prefersMode);
       storedTheme = prefersMode;
     }
   } else {
@@ -33,6 +33,7 @@ function Layout({ location, children, setRegion, setSearch, search }) {
   }
 
   const [themeMode, setThemeMode] = useState(storedTheme);
+
   const isDark = themeMode === 'dark';
   const isHomepage = location?.pathname === '/';
 
@@ -51,6 +52,7 @@ function Layout({ location, children, setRegion, setSearch, search }) {
             themeMode={themeMode}
             setThemeMode={setThemeMode}
           />
+
           {isHomepage && (
             <SearchHeader
               search={search}
