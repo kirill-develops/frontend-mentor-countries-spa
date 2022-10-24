@@ -1,8 +1,10 @@
-import { Stack, ThemeProvider, useMediaQuery } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { ThemeProvider } from '@mui/material';
 import React, { useState } from 'react';
-import { darkTheme, lightTheme } from '../styles/theme';
 import Header from '../components/Header';
 import SearchHeader from '../components/SearchHeader/SearchHeader';
+import { darkTheme, lightTheme, mainStyleProps } from '../styles/theme';
 
 const headerStyleProps = {
   position: 'sticky',
@@ -57,7 +59,13 @@ function Layout({ location, children, setRegion, setSearch, search }) {
             />
           )}
         </Stack>
-        {children}
+        <Stack
+          as="main"
+          direction="column"
+          sx={mainStyleProps}
+        >
+          {children}
+        </Stack>
       </Stack>
     </ThemeProvider>
   );
