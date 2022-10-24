@@ -124,4 +124,13 @@ export const mainStyleProps = {
   height: "100%"
 }
 
+export const countryPageFontProps = {
+  fontSize: 16
+}
+
+export const descriptorFontProps = {
+  ...countryPageFontProps,
+  fontWeight: 600,
+}
+
 export default theme;
