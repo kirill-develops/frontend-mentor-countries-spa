@@ -14,10 +14,13 @@ function useCurrencyJSX(currencies) {
   const currencyArr = Object.values(filteredCurrencies);
 
 
-  return currencyArr.map(currency =>
-    <Typography variant="body2" component='span' sx={countryPageFontProps} key={currency.name}>
-      {currency.name}
+  return currencyArr.map((currency, i) => {
+    const isLast = i === currencyArr.length - 1 ? true : false;
+
+    return <Typography variant="body2" component='span' sx={countryPageFontProps} key={currency.name}>
+      {currency.name}{isLast ? '' : `,${' '}`}
     </Typography>
+  }
   )
 }
 
