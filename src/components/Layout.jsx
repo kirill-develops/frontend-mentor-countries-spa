@@ -4,7 +4,6 @@ import React, { useContext, useEffect } from 'react';
 import Header from '../components/Header';
 import SearchHeader from '../components/SearchHeader/SearchHeader';
 import { darkTheme, lightTheme, mainStyleProps } from '../styles/theme';
-import '../styles/global-styles.css';
 import { darkModeContext } from './ThemeHandler';
 
 const headerStyleProps = {
@@ -20,11 +19,6 @@ function Layout({ location, children, setRegion, setSearch, search }) {
   const DarkModeContext = useContext(darkModeContext);
   const { darkMode, setDarkMode } = DarkModeContext;
 
-  const prefersMode = useMediaQuery('(prefers-color-scheme: dark)')
-    ? 'dark'
-    : 'light';
-  const prefersModeBool = useMediaQuery('(prefers-color-scheme: dark)');
-
   useEffect(() => {
     const theme = localStorage.getItem('color-mode');
 
@@ -36,12 +30,24 @@ function Layout({ location, children, setRegion, setSearch, search }) {
         setDarkMode(false);
       }
     } else {
+      const prefersMode = useMediaQuery('(prefers-color-scheme: dark)')
+        ? 'dark'
+        : 'light';
+      const prefersModeBool = useMediaQuery('(prefers-color-scheme: dark)');
+
       localStorage.setItem('color-mode', prefersMode);
       setDarkMode(prefersModeBool);
     }
   }, []);
 
   const isHomepage = location?.pathname === '/';
+  const homePageSearch = isHomepage && (
+    <SearchHeader
+      search={search}
+      setSearch={setSearch}
+      setRegion={setRegion}
+    />
+  );
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
@@ -56,13 +62,7 @@ function Layout({ location, children, setRegion, setSearch, search }) {
           }
         >
           <Header />
-          {isHomepage && (
-            <SearchHeader
-              search={search}
-              setSearch={setSearch}
-              setRegion={setRegion}
-            />
-          )}
+          {homePageSearch}
         </Stack>
         <Stack
           as="main"
