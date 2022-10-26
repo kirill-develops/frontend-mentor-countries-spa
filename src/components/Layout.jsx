@@ -1,6 +1,6 @@
 import Stack from '@mui/material/Stack';
 import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Header from '../components/Header';
 import SearchHeader from '../components/SearchHeader/SearchHeader';
 import { darkTheme, lightTheme, mainStyleProps } from '../styles/theme';
@@ -18,6 +18,7 @@ const headerStyleProps = {
 function Layout({ location, children, setRegion, setSearch, search }) {
   const DarkModeContext = useContext(darkModeContext);
   const { darkMode, setDarkMode } = DarkModeContext;
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
     const theme = localStorage.getItem('color-mode');
@@ -38,16 +39,34 @@ function Layout({ location, children, setRegion, setSearch, search }) {
       localStorage.setItem('color-mode', prefersMode);
       setDarkMode(prefersModeBool);
     }
+
+    setHasMounted(true);
   }, []);
 
-  const isHomepage = location?.pathname === '/';
-  const homePageSearch = isHomepage && (
-    <SearchHeader
-      search={search}
-      setSearch={setSearch}
-      setRegion={setRegion}
-    />
+  const isHomepage = useMemo(() => location?.pathname === '/', [location]);
+  const homepageSearch = useMemo(
+    () =>
+      isHomepage && (
+        <SearchHeader
+          search={search}
+          setSearch={setSearch}
+          setRegion={setRegion}
+        />
+      ),
+    [isHomepage],
   );
+
+  const backgroundColor = useMemo(
+    () =>
+      darkMode
+        ? darkTheme.palette.background.default
+        : lightTheme.palette.background.default,
+    [darkMode],
+  );
+
+  if (!hasMounted) {
+    return null;
+  }
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
@@ -55,14 +74,10 @@ function Layout({ location, children, setRegion, setSearch, search }) {
       <Stack sx={{ minHeight: '100vh', flexDirection: 'column' }}>
         <Stack
           sx={headerStyleProps}
-          backgroundColor={
-            darkMode
-              ? darkTheme.palette.background.default
-              : lightTheme.palette.background.default
-          }
+          backgroundColor={backgroundColor}
         >
           <Header />
-          {homePageSearch}
+          {homepageSearch}
         </Stack>
         <Stack
           as="main"
