@@ -84,5 +84,6 @@ module.exports = {
         bucketName: "countries-frontend-mentor",
       },
     },
-  ]
+  ],
+  flags: { DEV_SSR: true, }
 };
