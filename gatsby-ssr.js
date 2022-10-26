@@ -1,5 +1,6 @@
 import React from "react";
 import { darkTheme, lightTheme } from "./src/styles/theme";
+import { DarkModeState } from "./src/components/ThemeHandler";
 
 const MagicScriptTag = () => {
   const codeToRunOnClient = `
@@ -42,6 +43,11 @@ const MagicScriptTag = () => {
   // eslint-disable-next-line react/no-danger
   return <script dangerouslySetInnerHTML={{ __html: codeToRunOnClient }} />;
 };
+
 export const onRenderBody = ({ setPreBodyComponents }) => {
   setPreBodyComponents(<MagicScriptTag />);
 };
+
+export function wrapRootElement({ element, props }) {
+  return <DarkModeState {...props}>{element}</DarkModeState>
+}
