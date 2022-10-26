@@ -1,10 +1,11 @@
 import Stack from '@mui/material/Stack';
-import { ThemeProvider, useMediaQuery } from '@mui/material';
-import React, { useState } from 'react';
+import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
+import React, { useContext, useEffect } from 'react';
 import Header from '../components/Header';
 import SearchHeader from '../components/SearchHeader/SearchHeader';
 import { darkTheme, lightTheme, mainStyleProps } from '../styles/theme';
 import '../styles/global-styles.css';
+import { darkModeContext } from './ThemeHandler';
 
 const headerStyleProps = {
   position: 'sticky',
@@ -16,43 +17,45 @@ const headerStyleProps = {
 };
 
 function Layout({ location, children, setRegion, setSearch, search }) {
+  const DarkModeContext = useContext(darkModeContext);
+  const { darkMode, setDarkMode } = DarkModeContext;
+
   const prefersMode = useMediaQuery('(prefers-color-scheme: dark)')
     ? 'dark'
     : 'light';
+  const prefersModeBool = useMediaQuery('(prefers-color-scheme: dark)');
 
-  let storedTheme;
-  if (typeof Storage !== 'undefined') {
-    if (localStorage.getItem('color-mode'))
-      storedTheme = localStorage.getItem('color-mode');
-    else {
+  useEffect(() => {
+    const theme = localStorage.getItem('color-mode');
+
+    if (theme) {
+      const themePreference = localStorage.getItem('color-mode');
+      if (themePreference === 'dark') {
+        setDarkMode(true);
+      } else {
+        setDarkMode(false);
+      }
+    } else {
       localStorage.setItem('color-mode', prefersMode);
-      storedTheme = prefersMode;
+      setDarkMode(prefersModeBool);
     }
-  } else {
-    storedTheme = prefersMode;
-  }
+  }, []);
 
-  const [themeMode, setThemeMode] = useState(storedTheme);
-
-  const isDark = themeMode === 'dark';
   const isHomepage = location?.pathname === '/';
 
   return (
-    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      <CssBaseline enableColorScheme />
       <Stack sx={{ minHeight: '100vh', flexDirection: 'column' }}>
         <Stack
           sx={headerStyleProps}
           backgroundColor={
-            isDark
+            darkMode
               ? darkTheme.palette.background.default
               : lightTheme.palette.background.default
           }
         >
-          <Header
-            themeMode={themeMode}
-            setThemeMode={setThemeMode}
-          />
-
+          <Header />
           {isHomepage && (
             <SearchHeader
               search={search}

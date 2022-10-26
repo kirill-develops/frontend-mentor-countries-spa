@@ -1,21 +1,25 @@
 import { AppBar, Toolbar, Typography } from '@mui/material';
 import { Button } from 'gatsby-theme-material-ui';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import React from 'react';
+import React, { useContext } from 'react';
+import { darkModeContext } from './ThemeHandler';
 
-function Header({ themeMode, setThemeMode }) {
+function Header() {
+  const DarkModeContext = useContext(darkModeContext);
+  const { darkMode, setDarkMode } = DarkModeContext;
+
   const handleThemeChange = () => {
-    if (themeMode === 'dark') {
+    if (darkMode) {
       localStorage.setItem('color-mode', 'light');
-      setThemeMode('light');
+      setDarkMode(false);
     }
-    if (themeMode === 'light') {
+    if (!darkMode) {
       localStorage.setItem('color-mode', 'dark');
-      setThemeMode('dark');
+      setDarkMode(true);
     }
   };
 
-  const themeModeString = themeMode === 'dark' ? 'Light' : 'Dark';
+  const themeModeString = darkMode ? 'Light' : 'Dark';
 
   return (
     <AppBar
