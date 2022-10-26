@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import Grid from '@mui/material/Grid';
 import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react'
