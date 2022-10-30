@@ -7,6 +7,7 @@ import CountryPageBorders from '../components/CountryPage/Borders';
 import CountryPageDetails from '../components/CountryPage/Details';
 import CountryPageFlag from '../components/CountryPage/Flag';
 import Layout from '../components/Layout';
+import { Helmet } from 'react-helmet';
 
 const titleFontProps = {
   fontSize: 26,
@@ -66,16 +67,16 @@ function Country({ data }) {
           />
         </Stack>
       </Stack>
+      <Helmet>
+        <title>{`${name.common}`} | Worldwide National Data Center</title>
+        <meta property="og:title" content={`${name.common} | Worldwide National Data Center`} />
+      </Helmet>
     </Layout>
   );
 }
 
 export default Country;
 
-// export const Head = ({ data }) => {
-//   const { name } = data.allInternalCountries.edges[0].node;
-//   return <title>{name} Page</title>
-// };
 
 export const data = graphql`
   query ($countryName: String!) {

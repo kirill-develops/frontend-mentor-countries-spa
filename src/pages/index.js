@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import Countries from "../components/Countries";
 import Layout from "../components/Layout";
+import { Helmet } from "react-helmet";
 
 
 const IndexPage = ({ location }) => {
@@ -15,11 +16,13 @@ const IndexPage = ({ location }) => {
       location={location}
     >
       <Countries region={region} nameSearch={search} />
+      <Helmet>
+        <title>Home Page | Worldwide National Data Center</title>
+        <meta property="og:title" content='Home Page | Worldwide National Data Center' />
+      </Helmet>
     </Layout>
-
   )
 };
 
 export default IndexPage;
 
-// export const Head = () => <title>Home Page</title>;
