@@ -13,17 +13,19 @@ module.exports = {
     title: `Frontend Mentor Countries RestAPI Challenge`,
     siteUrl: `http://countries-frontend-mentor.s3-website-us-east-1.amazonaws.com/`,
     description: 'Displaying global countries & relevent information by integrating with the REST Countries API to pull country data',
+    image: "src/images/globe.svg",
     lang: 'en',
   },
   plugins: [
+    "gatsby-plugin-react-helmet",
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: "Worldwide National Data Center",
-        short_name: "Countries National Data",
+        name: "Frontend Mentor Countries RestAPI Challenge",
+        short_name: "Countries RestAPI Challenge FM",
         description: 'Displaying global countries & relevent information by integrating with the REST Countries API to pull country data',
         lang: 'en',
         start_url: "/",
