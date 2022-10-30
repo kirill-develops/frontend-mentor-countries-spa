@@ -16,8 +16,7 @@ function useBorderJSX([borders, countryNodes]) {
 
   return borders.map(shortHandCountryName => {
     const countryString = countryNodes
-      .filter(country => shortHandCountryName === country.cca3)
-    [0].name.common;
+      .filter(country => shortHandCountryName === country.cca3)[0].name.common;
 
     const link = `/${countryString}`
 
@@ -34,6 +33,6 @@ function useBorderJSX([borders, countryNodes]) {
       />
     )
   });
-};
+}
 
 export default useBorderJSX;
