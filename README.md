@@ -37,7 +37,7 @@ Users should be able to:
 ## My Process
 
 I wrote an article on linked in about some of the blockers and how I went about
-solving them. Check it out [here]()!
+solving them. Check it out [here](https://www.linkedin.com/pulse/mui-themes-dark-mode-gatsby-server-side-rendering-my-first-tchentsov)!
 
 ### Built with
 
