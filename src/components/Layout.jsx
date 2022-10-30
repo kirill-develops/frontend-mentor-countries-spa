@@ -5,6 +5,8 @@ import Header from '../components/Header';
 import SearchHeader from '../components/SearchHeader/SearchHeader';
 import { darkTheme, lightTheme, mainStyleProps } from '../styles/theme';
 import { darkModeContext } from './ThemeHandler';
+import '../styles/global-styles.css';
+import { SEO } from './Seo';
 
 const headerStyleProps = {
   position: 'sticky',
@@ -53,7 +55,7 @@ function Layout({ location, children, setRegion, setSearch, search }) {
           setRegion={setRegion}
         />
       ),
-    [isHomepage],
+    [isHomepage, search],
   );
 
   const backgroundColor = useMemo(
@@ -87,6 +89,7 @@ function Layout({ location, children, setRegion, setSearch, search }) {
           {children}
         </Stack>
       </Stack>
+      <SEO />
     </ThemeProvider>
   );
 }
