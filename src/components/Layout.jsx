@@ -22,6 +22,7 @@ function Layout({ location, children, setRegion, setSearch, search }) {
   const { darkMode, setDarkMode } = DarkModeContext;
   const [hasMounted, setHasMounted] = useState(false);
 
+  console.log('layout.js', darkMode); //!delete later
   useEffect(() => {
     const theme = localStorage.getItem('color-mode');
 
