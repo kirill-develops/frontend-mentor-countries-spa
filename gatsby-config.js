@@ -56,21 +56,6 @@ module.exports = {
       }
     },
     {
-      resolve: "gatsby-theme-material-ui",
-      options: {
-        webFontsConfig: {
-          fonts: {
-            google: [
-              {
-                family: `Nunito Sans`,
-                variants: [`300`, `600`, `800`],
-              },
-            ],
-          },
-        },
-      },
-    },
-    {
       resolve: "gatsby-plugin-eslint",
       options: {
         rulePaths: [gatsbyRequiredRules],

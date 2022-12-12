@@ -1,5 +1,5 @@
 import { AppBar, Toolbar, Typography } from '@mui/material';
-import { Button } from 'gatsby-theme-material-ui';
+import Button from '@mui/material/Button';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import React, { useContext } from 'react';
 import { darkModeContext } from './ThemeHandler';
