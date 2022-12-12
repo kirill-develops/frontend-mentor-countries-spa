@@ -27,7 +27,6 @@ function Layout({ location, children, setRegion, setSearch, search }) {
   const preferedColorModeBool = useMediaQuery('(prefers-color-scheme: dark)');
 
   useEffect(() => {
-    console.log('useEffect');
     const theme = localStorage.getItem('color-mode');
 
     if (theme) {
@@ -37,16 +36,10 @@ function Layout({ location, children, setRegion, setSearch, search }) {
         setDarkMode(false);
       }
     } else {
-      console.log('else');
-      console.log(preferedColorMode);
-      console.log(preferedColorModeBool);
-
       localStorage.setItem('color-mode', preferedColorMode);
-      setDarkMode(preferedColorModeBool);
-      console.log('else');
-    }
 
-    console.log('finished useEffect');
+      setDarkMode(preferedColorModeBool);
+    }
     setHasMounted(true);
   }, []);
 
