@@ -67,32 +67,33 @@ function Layout({ location, children, setRegion, setSearch, search }) {
   );
 
   if (!hasMounted) {
-    console.log('not rendered');
     return null;
   }
 
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+    <>
       {console.log('rendered')}
-      <CssBaseline enableColorScheme />
-      <Stack sx={{ minHeight: '100vh', flexDirection: 'column' }}>
-        <Stack
-          sx={headerStyleProps}
-          backgroundColor={backgroundColor}
-        >
-          <Header />
-          {homepageSearch}
+      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+        <CssBaseline enableColorScheme />
+        <Stack sx={{ minHeight: '100vh', flexDirection: 'column' }}>
+          <Stack
+            sx={headerStyleProps}
+            backgroundColor={backgroundColor}
+          >
+            <Header />
+            {homepageSearch}
+          </Stack>
+          <Stack
+            as="main"
+            direction="column"
+            sx={mainStyleProps}
+          >
+            {children}
+          </Stack>
         </Stack>
-        <Stack
-          as="main"
-          direction="column"
-          sx={mainStyleProps}
-        >
-          {children}
-        </Stack>
-      </Stack>
-      <SEO />
-    </ThemeProvider>
+        <SEO />
+      </ThemeProvider>
+    </>
   );
 }
 
