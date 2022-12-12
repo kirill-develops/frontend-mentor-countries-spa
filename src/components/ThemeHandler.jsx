@@ -1,30 +1,29 @@
 import React, { createContext, useReducer } from 'react';
-let SET_THEME;
 
 export const darkModeContext = createContext();
 
-export const darkModeReducer = (state, action) => {
-  switch (action.type) {
-    case SET_THEME:
-      return {
-        ...state,
-        darkMode: action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-export const DarkModeState = (props) => {
+export const DarkModeState = ({ children }) => {
   const initialState = {
     darkMode: false,
   };
 
+  const darkModeReducer = (state, action) => {
+    switch (action.type) {
+      case 'SET_THEME':
+        return {
+          ...state,
+          darkMode: action.payload,
+        };
+      default:
+        return state;
+    }
+  };
+
   const [state, dispatch] = useReducer(darkModeReducer, initialState);
 
-  const setDarkMode = async (bool) => {
+  const setDarkMode = (bool) => {
     dispatch({
-      type: SET_THEME,
+      type: 'SET_THEME',
       payload: bool,
     });
   };
@@ -36,7 +35,7 @@ export const DarkModeState = (props) => {
         setDarkMode,
       }}
     >
-      {props.children}
+      {children}
     </darkModeContext.Provider>
   );
 };

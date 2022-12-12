@@ -8,6 +8,7 @@ const IndexPage = ({ location }) => {
   const [region, setRegion] = useState('');
   const [search, setSearch] = useState('');
 
+
   return (
     <Layout
       setRegion={setRegion}

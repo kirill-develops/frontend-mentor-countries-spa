@@ -2,7 +2,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
-import { CardActionArea, Link } from 'gatsby-theme-material-ui';
+import CardActionArea from '@mui/material/CardActionArea';
+import { Link } from 'gatsby';
 import Image from 'mui-image';
 import React from 'react';
 import { columnFlexProps } from '../styles/theme';
@@ -25,7 +26,7 @@ function CountryCard({ data }) {
   return (
     <Card sx={{ height: '100%' }}>
       <CardActionArea
-        component={Link}
+        LinkComponent={Link}
         to={`/${data.name.common}`}
       >
         <Image

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button } from 'gatsby-theme-material-ui';
+import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Link } from 'gatsby';
 
 const backButtonStyleProps = {
   my: { xs: 4, md: 'auto' },
@@ -15,6 +16,7 @@ function BackButton() {
   return (
     <Button
       variant="text"
+      LinkComponent={Link}
       to="/"
       startIcon={<ArrowBackIcon />}
       sx={backButtonStyleProps}

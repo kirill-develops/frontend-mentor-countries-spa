@@ -6,7 +6,7 @@ import SearchHeader from '../components/SearchHeader/SearchHeader';
 import { darkTheme, lightTheme, mainStyleProps } from '../styles/theme';
 import { darkModeContext } from './ThemeHandler';
 import '../styles/global-styles.css';
-import { SEO } from './Seo';
+import { SEO } from './SEO';
 
 const headerStyleProps = {
   position: 'sticky',
@@ -21,31 +21,30 @@ function Layout({ location, children, setRegion, setSearch, search }) {
   const DarkModeContext = useContext(darkModeContext);
   const { darkMode, setDarkMode } = DarkModeContext;
   const [hasMounted, setHasMounted] = useState(false);
+  const preferedColorMode = useMediaQuery('(prefers-color-scheme: dark)')
+    ? 'dark'
+    : 'light';
+  const preferedColorModeBool = useMediaQuery('(prefers-color-scheme: dark)');
 
   useEffect(() => {
     const theme = localStorage.getItem('color-mode');
 
     if (theme) {
-      const themePreference = localStorage.getItem('color-mode');
-      if (themePreference === 'dark') {
+      if (theme === 'dark') {
         setDarkMode(true);
       } else {
         setDarkMode(false);
       }
     } else {
-      const prefersMode = useMediaQuery('(prefers-color-scheme: dark)')
-        ? 'dark'
-        : 'light';
-      const prefersModeBool = useMediaQuery('(prefers-color-scheme: dark)');
+      localStorage.setItem('color-mode', preferedColorMode);
 
-      localStorage.setItem('color-mode', prefersMode);
-      setDarkMode(prefersModeBool);
+      setDarkMode(preferedColorModeBool);
     }
-
     setHasMounted(true);
   }, []);
 
   const isHomepage = useMemo(() => location?.pathname === '/', [location]);
+
   const homepageSearch = useMemo(
     () =>
       isHomepage && (
