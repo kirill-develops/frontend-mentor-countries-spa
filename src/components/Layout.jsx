@@ -6,7 +6,7 @@ import SearchHeader from '../components/SearchHeader/SearchHeader';
 import { darkTheme, lightTheme, mainStyleProps } from '../styles/theme';
 import { darkModeContext } from './ThemeHandler';
 import '../styles/global-styles.css';
-import { SEO } from './Seo';
+import { SEO } from './SEO';
 
 const headerStyleProps = {
   position: 'sticky',
@@ -26,8 +26,7 @@ function Layout({ location, children, setRegion, setSearch, search }) {
     const theme = localStorage.getItem('color-mode');
 
     if (theme) {
-      const themePreference = localStorage.getItem('color-mode');
-      if (themePreference === 'dark') {
+      if (theme === 'dark') {
         setDarkMode(true);
       } else {
         setDarkMode(false);
@@ -46,6 +45,7 @@ function Layout({ location, children, setRegion, setSearch, search }) {
   }, []);
 
   const isHomepage = useMemo(() => location?.pathname === '/', [location]);
+
   const homepageSearch = useMemo(
     () =>
       isHomepage && (

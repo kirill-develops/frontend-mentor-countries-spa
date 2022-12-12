@@ -17,7 +17,6 @@ module.exports = {
     lang: 'en',
   },
   plugins: [
-    "gatsby-plugin-react-helmet",
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
@@ -80,6 +79,7 @@ module.exports = {
         exclude: ["node_modules", "bower_components", ".cache", "public"],
       },
     },
+    "gatsby-plugin-react-helmet",
     {
       resolve: `gatsby-plugin-s3`,
       options: {
