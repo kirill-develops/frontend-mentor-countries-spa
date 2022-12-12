@@ -21,6 +21,10 @@ function Layout({ location, children, setRegion, setSearch, search }) {
   const DarkModeContext = useContext(darkModeContext);
   const { darkMode, setDarkMode } = DarkModeContext;
   const [hasMounted, setHasMounted] = useState(false);
+  const preferedColorMode = useMediaQuery('(prefers-color-scheme: dark)')
+    ? 'dark'
+    : 'light';
+  const preferedColorModeBool = useMediaQuery('(prefers-color-scheme: dark)');
 
   useEffect(() => {
     console.log('useEffect');
@@ -34,18 +38,15 @@ function Layout({ location, children, setRegion, setSearch, search }) {
       }
     } else {
       console.log('else');
-      const prefersMode = useMediaQuery('(prefers-color-scheme: dark)')
-        ? 'dark'
-        : 'light';
-      console.log(prefersMode);
-      const prefersModeBool = useMediaQuery('(prefers-color-scheme: dark)');
-      console.log(prefersModeBool);
+      console.log(preferedColorMode);
+      console.log(preferedColorModeBool);
 
-      localStorage.setItem('color-mode', prefersMode);
-      setDarkMode(prefersModeBool);
-      console.log('finished useEffect');
+      localStorage.setItem('color-mode', preferedColorMode);
+      setDarkMode(preferedColorModeBool);
+      console.log('else');
     }
 
+    console.log('finished useEffect');
     setHasMounted(true);
   }, []);
 
