@@ -22,7 +22,6 @@ function Layout({ location, children, setRegion, setSearch, search }) {
   const { darkMode, setDarkMode } = DarkModeContext;
   const [hasMounted, setHasMounted] = useState(false);
 
-  console.log('layout.js', darkMode); //!delete later
   useEffect(() => {
     const theme = localStorage.getItem('color-mode');
 
@@ -68,11 +67,13 @@ function Layout({ location, children, setRegion, setSearch, search }) {
   );
 
   if (!hasMounted) {
+    console.log('not rendered');
     return null;
   }
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      {console.log('rendered')}
       <CssBaseline enableColorScheme />
       <Stack sx={{ minHeight: '100vh', flexDirection: 'column' }}>
         <Stack
