@@ -23,7 +23,9 @@ function Layout({ location, children, setRegion, setSearch, search }) {
   const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
+    console.log('useEffect');
     const theme = localStorage.getItem('color-mode');
+    console.log(theme);
 
     if (theme) {
       if (theme === 'dark') {
@@ -71,29 +73,26 @@ function Layout({ location, children, setRegion, setSearch, search }) {
   }
 
   return (
-    <>
-      {console.log('rendered')}
-      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-        <CssBaseline enableColorScheme />
-        <Stack sx={{ minHeight: '100vh', flexDirection: 'column' }}>
-          <Stack
-            sx={headerStyleProps}
-            backgroundColor={backgroundColor}
-          >
-            <Header />
-            {homepageSearch}
-          </Stack>
-          <Stack
-            as="main"
-            direction="column"
-            sx={mainStyleProps}
-          >
-            {children}
-          </Stack>
+    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      <CssBaseline enableColorScheme />
+      <Stack sx={{ minHeight: '100vh', flexDirection: 'column' }}>
+        <Stack
+          sx={headerStyleProps}
+          backgroundColor={backgroundColor}
+        >
+          <Header />
+          {homepageSearch}
         </Stack>
-        <SEO />
-      </ThemeProvider>
-    </>
+        <Stack
+          as="main"
+          direction="column"
+          sx={mainStyleProps}
+        >
+          {children}
+        </Stack>
+      </Stack>
+      <SEO />
+    </ThemeProvider>
   );
 }
 
