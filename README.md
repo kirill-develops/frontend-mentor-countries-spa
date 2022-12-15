@@ -32,12 +32,12 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: [http://countries-frontend-mentor.s3-website-us-east-1.amazonaws.com/](http://countries-frontend-mentor.s3-website-us-east-1.amazonaws.com/)
+- Live Site URL: [http://countries-frontend-mentor.s3-website-us-east-1.amazonaws.com/](https://main.d8wbp4tt7l3hc.amplifyapp.com/)
 
 ## My Process
 
 I wrote an article on linked in about some of the blockers and how I went about
-solving them. Check it out [here](https://www.linkedin.com/pulse/mui-themes-dark-mode-gatsby-server-side-rendering-my-first-tchentsov)!
+solving them. Check it out [here](https://www.linkedin.com/pulse/growing-pains-materialui-dark-mode-gatsbys-advanced-build-tchentsov/)!
 
 ### Built with
 
