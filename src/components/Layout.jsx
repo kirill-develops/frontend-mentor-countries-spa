@@ -66,10 +66,6 @@ function Layout({ location, children, setRegion, setSearch, search }) {
       [darkMode],
    );
 
-   if (!hasMounted) {
-      return null;
-   }
-
    return (
       <>
          <Helmet>
@@ -121,26 +117,28 @@ function Layout({ location, children, setRegion, setSearch, search }) {
                href="https://frontend-mentor-countries-spa.onrender.com/"
             />
          </Helmet>
-         <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-            <CssBaseline enableColorScheme />
-            <Stack sx={{ minHeight: "100vh", flexDirection: "column" }}>
-               <Stack
-                  sx={headerStyleProps}
-                  backgroundColor={backgroundColor}
-               >
-                  <Header />
-                  {homepageSearch}
+         {hasMounted && (
+            <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+               <CssBaseline enableColorScheme />
+               <Stack sx={{ minHeight: "100vh", flexDirection: "column" }}>
+                  <Stack
+                     sx={headerStyleProps}
+                     backgroundColor={backgroundColor}
+                  >
+                     <Header />
+                     {homepageSearch}
+                  </Stack>
+                  <Stack
+                     as="main"
+                     direction="column"
+                     sx={mainStyleProps}
+                  >
+                     {children}
+                  </Stack>
                </Stack>
-               <Stack
-                  as="main"
-                  direction="column"
-                  sx={mainStyleProps}
-               >
-                  {children}
-               </Stack>
-            </Stack>
-            <SEO />
-         </ThemeProvider>
+               <SEO />
+            </ThemeProvider>
+         )}
       </>
    );
 }
