@@ -68,10 +68,10 @@ function Country({ data }) {
             </Stack>
          </Stack>
          <Helmet>
-            <title>{`${name.common}`} | Worldwide National Data Center</title>
+            <title>{`${name.common}`} | Countries Explorer</title>
             <meta
                property="og:title"
-               content={`${name.common} | Worldwide National Data Center`}
+               content={`${name.common} | Countries Explorer`}
             />
          </Helmet>
       </Layout>

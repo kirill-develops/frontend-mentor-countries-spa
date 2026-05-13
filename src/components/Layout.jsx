@@ -1,96 +1,148 @@
-import Stack from '@mui/material/Stack';
-import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import Header from '../components/Header';
-import SearchHeader from '../components/SearchHeader/SearchHeader';
-import { darkTheme, lightTheme, mainStyleProps } from '../styles/theme';
-import { darkModeContext } from './ThemeHandler';
-import '../styles/global-styles.css';
-import { SEO } from './SEO';
+import Stack from "@mui/material/Stack";
+import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import Header from "../components/Header";
+import SearchHeader from "../components/SearchHeader/SearchHeader";
+import { darkTheme, lightTheme, mainStyleProps } from "../styles/theme";
+import { darkModeContext } from "./ThemeHandler";
+import "../styles/global-styles.css";
+import { SEO } from "./SEO";
+import { Helmet } from "react-helmet";
 
 const headerStyleProps = {
-  position: 'sticky',
-  top: 0,
-  zIndex: 1,
-  flexDirection: 'column',
-  gap: 3,
-  pb: 3,
+   position: "sticky",
+   top: 0,
+   zIndex: 1,
+   flexDirection: "column",
+   gap: 3,
+   pb: 3,
 };
 
 function Layout({ location, children, setRegion, setSearch, search }) {
-  const DarkModeContext = useContext(darkModeContext);
-  const { darkMode, setDarkMode } = DarkModeContext;
-  const [hasMounted, setHasMounted] = useState(false);
-  const preferedColorMode = useMediaQuery('(prefers-color-scheme: dark)')
-    ? 'dark'
-    : 'light';
-  const preferedColorModeBool = useMediaQuery('(prefers-color-scheme: dark)');
+   const DarkModeContext = useContext(darkModeContext);
+   const { darkMode, setDarkMode } = DarkModeContext;
+   const [hasMounted, setHasMounted] = useState(false);
+   const preferedColorMode = useMediaQuery("(prefers-color-scheme: dark)")
+      ? "dark"
+      : "light";
+   const preferedColorModeBool = useMediaQuery("(prefers-color-scheme: dark)");
 
-  useEffect(() => {
-    const theme = localStorage.getItem('color-mode');
+   useEffect(() => {
+      const theme = localStorage.getItem("color-mode");
 
-    if (theme) {
-      if (theme === 'dark') {
-        setDarkMode(true);
+      if (theme) {
+         if (theme === "dark") {
+            setDarkMode(true);
+         } else {
+            setDarkMode(false);
+         }
       } else {
-        setDarkMode(false);
+         localStorage.setItem("color-mode", preferedColorMode);
+
+         setDarkMode(preferedColorModeBool);
       }
-    } else {
-      localStorage.setItem('color-mode', preferedColorMode);
+      setHasMounted(true);
+   }, []);
 
-      setDarkMode(preferedColorModeBool);
-    }
-    setHasMounted(true);
-  }, []);
+   const isHomepage = useMemo(() => location?.pathname === "/", [location]);
 
-  const isHomepage = useMemo(() => location?.pathname === '/', [location]);
+   const homepageSearch = useMemo(
+      () =>
+         isHomepage && (
+            <SearchHeader
+               search={search}
+               setSearch={setSearch}
+               setRegion={setRegion}
+            />
+         ),
+      [isHomepage, search],
+   );
 
-  const homepageSearch = useMemo(
-    () =>
-      isHomepage && (
-        <SearchHeader
-          search={search}
-          setSearch={setSearch}
-          setRegion={setRegion}
-        />
-      ),
-    [isHomepage, search],
-  );
+   const backgroundColor = useMemo(
+      () =>
+         darkMode
+            ? darkTheme.palette.background.default
+            : lightTheme.palette.background.default,
+      [darkMode],
+   );
 
-  const backgroundColor = useMemo(
-    () =>
-      darkMode
-        ? darkTheme.palette.background.default
-        : lightTheme.palette.background.default,
-    [darkMode],
-  );
+   if (!hasMounted) {
+      return null;
+   }
 
-  if (!hasMounted) {
-    return null;
-  }
+   return (
+      <>
+         <Helmet>
+            <title>Countries Explorer</title>
+            <meta
+               name="description"
+               content="Explore detailed profiles for every country in the world. Search and filter by region, view population, languages, currencies, bordering nations, and more."
+            />
+            <meta
+               name="author"
+               content="Kirill"
+            />
 
-  return (
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <CssBaseline enableColorScheme />
-      <Stack sx={{ minHeight: '100vh', flexDirection: 'column' }}>
-        <Stack
-          sx={headerStyleProps}
-          backgroundColor={backgroundColor}
-        >
-          <Header />
-          {homepageSearch}
-        </Stack>
-        <Stack
-          as="main"
-          direction="column"
-          sx={mainStyleProps}
-        >
-          {children}
-        </Stack>
-      </Stack>
-      <SEO />
-    </ThemeProvider>
-  );
+            {/* Open Graph */}
+            <meta
+               property="og:title"
+               content="Countries Explorer"
+            />
+            <meta
+               property="og:description"
+               content="Explore detailed profiles for every country in the world. Search and filter by region, view population, languages, currencies, bordering nations, and more."
+            />
+            <meta
+               property="og:url"
+               content="https://frontend-mentor-countries-spa.onrender.com/"
+            />
+            <meta
+               property="og:type"
+               content="website"
+            />
+
+            {/* Twitter/X */}
+            <meta
+               name="twitter:card"
+               content="summary_large_image"
+            />
+            <meta
+               name="twitter:title"
+               content="Countries Explorer"
+            />
+            <meta
+               name="twitter:description"
+               content="Explore detailed profiles for every country in the world. Search and filter by region, view population, languages, currencies, bordering nations, and more."
+            />
+
+            {/* Canonical */}
+            <link
+               rel="canonical"
+               href="https://frontend-mentor-countries-spa.onrender.com/"
+            />
+         </Helmet>
+         <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+            <CssBaseline enableColorScheme />
+            <Stack sx={{ minHeight: "100vh", flexDirection: "column" }}>
+               <Stack
+                  sx={headerStyleProps}
+                  backgroundColor={backgroundColor}
+               >
+                  <Header />
+                  {homepageSearch}
+               </Stack>
+               <Stack
+                  as="main"
+                  direction="column"
+                  sx={mainStyleProps}
+               >
+                  {children}
+               </Stack>
+            </Stack>
+            <SEO />
+         </ThemeProvider>
+      </>
+   );
 }
 
 export default Layout;
